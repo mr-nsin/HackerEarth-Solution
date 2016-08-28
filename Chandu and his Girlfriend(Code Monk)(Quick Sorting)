@@ -1,0 +1,42 @@
+#include <iostream>
+#include <algorithm>
+#define lli long long int 
+#define li long int 
+//quick sort
+using namespace std;
+li partition(lli A[], li start, li end ){
+	li i = start+1;
+	lli pivot = A[start];
+	for(li j = start+1;j<=end;j++){
+		if(A[j]<pivot){
+			swap(A[i],A[j]);
+			i = i+1;
+		}
+	}
+	swap(A[start], A[i-1]);
+	return i-1;
+}
+void quickSort(lli A[], li start, li end ){
+	if(start <end){
+		li piv_pos = partition(A,start,end);
+		quickSort(A,start,piv_pos-1);
+		quickSort(A,piv_pos+1,end);
+	}
+}
+int main()
+{	
+	int t;
+	cin>>t;
+	while(t--){
+		li n;
+		cin>>n;
+		lli *arr = new lli[n];
+		for(li i = 0;i<n;i++)
+			cin>>arr[i];
+		quickSort(arr,0,n-1);
+		for(li i = n-1;i>=0;i--)
+			cout<<arr[i]<<" ";
+		cout<<"\n";
+	}
+    return 0;
+}
