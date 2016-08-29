@@ -1,0 +1,55 @@
+#include <iostream>
+#include <algorithm>
+#define SIZE 1000005
+int arr[SIZE],inv[SIZE],temp[SIZE],c[SIZE],n;
+using namespace std;
+
+void merge(int start, int mid, int end){
+	int i,j,k;
+	i = start;
+	j = mid;
+	k = start;
+	while(i<mid && j<=end){
+		if(arr[i]>arr[j]){
+			inv[arr[i]]+=end-j+1;
+			temp[k++] = arr[i++];
+		}else
+			temp[k++] = arr[j++];
+	}
+	while(i<mid){
+		temp[k++] = arr[i++];
+	}
+	while(j<=end){
+		temp[k++] = arr[j++];
+	}
+	for(i=start;i<=end;++i){
+		arr[i] = temp[i];
+	}
+}
+void merge_sort(int start, int end){
+	if(start<end){
+		int mid = start + (end-start)/2;
+		merge_sort(start, mid);
+		merge_sort(mid+1, end);
+		merge(start, mid+1, end);
+	}
+}
+int main()
+{
+    int t,i;
+    cin>>t;
+    while(t--){
+    	cin>>n;
+    	for( i = 0;i<n;++i){
+    		cin>>arr[i];
+    		inv[arr[i]] = 0;
+    		c[i] = arr[i];
+    	}
+    	
+    	merge_sort(0,n-1);
+    	for(i=0;i<n;++i)
+    		cout<<inv[c[i]]<<" ";
+    	cout<<"\n";
+    }
+    return 0;
+}
