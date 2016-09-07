@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 1000001
+int P[MAX];
+void _sieve(){
+	for(int i=2;i<MAX;i++){
+		if(!P[i]){
+			int j=2*i;
+			while(j<MAX){
+				P[j]=1;
+				j+=i;
+			}
+		}
+	}
+	P[4]=0;
+	P[1]=1;
+	for(int i=1;i<MAX;i++)
+		P[i]+=P[i-1];	
+}
+int query(int l,int r){
+	return P[r]-P[l-1];
+}
+int main(){
+	ios_base::sync_with_stdio(0);
+	int t;
+	scanf("%d",&t);
+	assert(t<=1000000);
+	_sieve();
+	while(t--){
+		int l,r;
+		scanf("%d%d",&l,&r);
+		assert(l<=r);
+		assert(l>=1&&r<=1000000);
+		printf("%d\n",query(l, r));
+	}
+	return 0;
+}
