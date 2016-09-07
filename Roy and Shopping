@@ -1,0 +1,51 @@
+#include <iostream>
+#include <limits.h>
+#define MAX 1000001
+int arr[MAX];
+using namespace std;
+void _sieve(){
+	for(int i = 2;i<MAX;++i){
+		if(!arr[i]){
+			int j = 2*i;
+			while(j<MAX){
+				arr[j] = 1;
+				j+=i;
+			}
+		}
+	}
+}
+int query(int price){
+	int min_price = INT_MAX;
+	if(arr[price] == 0)
+		min_price = min(min_price, price);
+	else {
+			for(int i = 2;i<=price;++i){
+				if(arr[i] == 0){
+					if(price % i == 0){
+						min_price = min(min_price, i);
+						break;
+					}
+				}
+			}
+	}
+	return price - min_price;
+}
+int main()
+{
+   ios_base::sync_with_stdio(0);
+   int t;
+   int itemPrice, pitemPrice = 0,ans;
+   scanf("%d", &t);
+   
+   _sieve();
+   while(t--){
+   	scanf("%d",&itemPrice);
+   	if(pitemPrice == itemPrice )
+   		printf("%d\n",ans);
+   	else
+   		printf("%d\n",ans = query(itemPrice));
+   	pitemPrice = itemPrice;
+   	
+   }
+   return 0;
+}
