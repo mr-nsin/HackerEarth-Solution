@@ -1,0 +1,61 @@
+#include <iostream>
+#include <algorithm>
+#define num 1000005
+//Sieve Of Eratosthenes.
+using namespace std;
+long long int arr[num];
+long long int prime_count[num];
+long long int prime_prime[num];
+void initial_run(long long int n){
+	for(long long int i = 2;i<=sqrt(n);++i){
+		if(arr[i] == 0){
+			for(long long int j = 2;j<=n;++j){
+				if(i*j > n)
+					break;
+				arr[i*j] = 1;
+			}
+		}
+	}
+}
+void initial_prime_count(long long int n){
+	long long int count = 0;
+	for(long long int i = 2;i<=n;++i){
+		if(arr[i] == 0){
+			count+=1;
+			prime_count[i] = count;
+		}
+		prime_count[i] = count;
+	}
+}
+void initial_prime_prime_count(long long int n){
+	long long int count = 0;
+	for(long long int i = 2;i<=n;++i){
+		if(arr[prime_count[i]] == 0){
+			count+=1;
+			prime_prime[i] = count;
+		}
+		prime_prime[i] = count;
+	}
+	
+}
+
+long long int sum_prime_prime(long long int n1, long long int n2){
+	return prime_prime[n2]-prime_prime[n1-1];
+}
+int main()
+{
+    long int t;
+    cin>>t;
+    fill_n(arr,1000005,0); //for checking of all primes;
+	arr[1] = 1;
+	initial_run(num);
+	initial_prime_count(num);
+	initial_prime_prime_count(num);
+    while(t--){
+    	long long int n1,n2;
+    	cin>>n1>>n2;
+    	long long int res = sum_prime_prime(n1,n2);
+    	cout<<res<<"\n";
+    }
+    return 0;
+}
